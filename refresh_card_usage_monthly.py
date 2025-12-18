@@ -2,6 +2,8 @@ import os
 import sys
 from supabase import create_client
 
+RPC_NAME = "refresh_card_usage_monthly"  # must match the SQL function name
+
 def main() -> int:
     url = os.environ.get("SUPABASE_URL")
     key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
@@ -12,14 +14,14 @@ def main() -> int:
 
     supabase = create_client(url, key)
 
-    res = supabase.rpc("refresh_card_usage_monthly").execute()
-
-    if res.error:
-        print(res.error, file=sys.stderr)
+    try:
+        # For RETURNS void, Supabase typically returns data=None or [] depending on version
+        res = supabase.rpc(RPC_NAME, {}).execute()
+        print(f"RPC '{RPC_NAME}' executed successfully. Returned: {res.data}")
+        return 0
+    except Exception as e:
+        print(f"RPC '{RPC_NAME}' failed: {e}", file=sys.stderr)
         return 1
-
-    print("Refresh completed successfully.")
-    return 0
 
 if __name__ == "__main__":
     raise SystemExit(main())
