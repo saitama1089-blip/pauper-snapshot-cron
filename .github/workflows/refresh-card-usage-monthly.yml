@@ -20,4 +20,4 @@ jobs:
       - name: Run refresh
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: python scripts/refresh_card_usage_monthly.py
+        run: python refresh_card_usage_monthly.py
