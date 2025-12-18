@@ -3,7 +3,7 @@ name: Refresh card_usage_monthly (this + last month)
 on:
   schedule:
     # Runs every day at 06:20 UTC (adjust as you like)
-    - cron: "20 6 * * *"
+    - cron: "*/30 * * * *"
   workflow_dispatch: {}
 
 jobs:
